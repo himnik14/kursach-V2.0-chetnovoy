@@ -1,28 +1,30 @@
 #include "FileManager.h"
 #include <iostream>
 #include "lineSeparator.h"
-vector<HairMasters> ReadFile1(ifstream &fout, string separator)
+vector<HairMasters> ReadFile1(ifstream &f, string separator, string path)
 {
 	vector<string> a;
-	string path = "C:\\Games\\text.txt";
-	fout.open(path);
+	
+	f.open(path);
+	if (!f.is_open()) {
+		cout << "Ошибка открытия файла!\n";
+	}
 	string s;
 	vector<HairMasters> Masters;
-	while (!fout.eof())
+	while (!f.eof())
 	{
-		getline(fout, s);
+		getline(f, s);
 		if (s.size() != 0) {
 			a = lineSeparotor(s, separator);
 			Masters.push_back(HairMasters(a[0], a[1], a[2], a[3], a[4]));
 		}
 	}
-	fout.close();
+	f.close();
 	return Masters;
 }
 
-void FileOverwrite(vector<HairMasters> &Masters, ofstream& fout)
+void FileOverwrite(vector<HairMasters> &Masters, ofstream& fout, string path)
 {
-	string path = "C:\\Games\\text.txt";
 	fout.open(path, ios::trunc);
 	fout.close();
 	fout.open(path, ios::app);

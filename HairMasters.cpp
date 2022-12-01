@@ -37,7 +37,7 @@ HairMasters::HairMasters()
 		cout << ex.what();
 		throw exception("Некоторые поля введены некоректно!\n");
 	}
-	cout << "Введите дату совершения работы\n";
+	cout << "Введите дату совершения работы в формате xx.xx.xxxx\n";
 	getline(cin, name1);
 	try
 	{
@@ -71,7 +71,6 @@ HairMasters::HairMasters()
 		cout << ex.what();
 		throw exception("Некоторые поля введены некоректно!\n");
 	}
-
 }
 
 string HairMasters::GetName()
@@ -101,37 +100,58 @@ string HairMasters::GetType()
 
 void HairMasters::SetName(string name)
 {
+	regex r("[А-Яа-я\\s]*");
 	if (name.empty())
 		throw exception("Поле с ФИО не должно быть пустым!\n");
+	else if (!regex_match(name.c_str(), r))
+		throw exception("В поле ФИО допустимы только кириллические символы!\n");
 	this->name = name;
 }
 
 void HairMasters::SetType(string type)
 {
+	regex r("[А-Яа-я\\s\\d]*");
 	if (type.empty())
 		throw exception("Поле с типом работы не должно быть пустым!\n");
+	else if (!regex_match(type.c_str(), r))
+		throw exception("В поле тип работы допустимы только кириллические символы и цифры!\n");
 	this->type = type;
 }
 
 void HairMasters::SetNumberClient(string numberClient)
 {
-	if (stoi(numberClient) <= 0 || stoi(numberClient) > 200)
+	regex r("[0-9\\s]*");
+	if (!regex_match(numberClient.c_str(), r))
+	throw exception("В поле номера клиента допустимы только цифры!\n");
+	else if (stoi(numberClient) <= 0 || stoi(numberClient) > 200)
 		throw exception("Поле с номером клиента введено некоректно!\n");
 	this->numberClient = (numberClient);
 }
 
 void HairMasters::SetPrice(string price)
 {
-	if (stoi(price) <= 400 || stoi(price) >= 100000)
+	regex r("[0-9\Q.,\E]*");
+	if (!regex_match(price.c_str(), r))
+		throw exception("В поле цены допустимы только цифры!\n");
+	else if (stof(price) <= 400 || stof(price) >= 100000)
 		throw exception("Поле со стоимостью введено некорректно!\n");
 	this->price = (price);
 }
 
 void HairMasters::SetTheData(string theData)
 {
-	if (theData.empty())
+	regex r("[0-9\Q.\E]*");
+	if (!regex_match(theData.c_str(), r))
+		throw exception("В поле даты допустимы только цифры!\n");
+	else if (theData.empty())
 		throw exception("Поле с датой не должно быть пустым!\n");
 	else if (theData.length() != 10)
 		throw exception("Поле с датой должно иметь вид xx.xx.xxxx\n");
+	else if (stoi(theData.substr(0, 2)) > 31 || stoi(theData.substr(0, 2)) <= 0)
+		throw exception("В месяце максимум 31 день!\n");
+	else if (stoi(theData.substr(3, 5)) > 12 || stoi(theData.substr(3, 5)) <= 0)
+		throw exception("В году 12 месяцев!\n");
+	else if (stoi(theData.substr(6, 9)) > 2022 || stoi(theData.substr(6, 9)) <= 2000)
+		throw exception("Наш салон красоты ведёт учёт работ с 2000-го года!\n");
 	this->theData = theData;
 }

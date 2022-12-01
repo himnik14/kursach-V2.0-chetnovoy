@@ -17,6 +17,8 @@ void AddData(vector<HairMasters> &Masters, ofstream& fout)
 	getline(cin, separator);
 	for (int i = 0; i < stoi(n); i++)
 	{
+		cout << "Создание " << i + 1 << " записи!\n";
+		cout << "============================\n";
 		try
 		{
 			Masters.push_back(HairMasters());
@@ -27,7 +29,13 @@ void AddData(vector<HairMasters> &Masters, ofstream& fout)
 			continue;
 		}
 		cout << "Запись успешно создана!\n";
-		fout << Masters[Masters.size() - 1].GetName() << separator << Masters[Masters.size() - 1].GetType() << separator << Masters[Masters.size() - 1].GetNumberClient() << separator << Masters[Masters.size() - 1].GetPrice() << separator << Masters[Masters.size() - 1].GetTheData() << separator << "\n";
+		cout << "============================\n";
+
+		fout << Masters[Masters.size() - 1].GetName() << separator
+			<< Masters[Masters.size() - 1].GetType() <<
+			separator << Masters[Masters.size() - 1].GetNumberClient() 
+			<< separator << Masters[Masters.size() - 1].GetPrice() << separator 
+			<< Masters[Masters.size() - 1].GetTheData() << separator << "\n";
 	}
 
 }
@@ -117,7 +125,7 @@ void EditPost(vector<HairMasters>& Masters, ofstream& fout)
 		if (_getch() == '0')
 			T = false;
 	} while (T);
-	FileOverwrite(Masters, fout);
+	FileOverwrite(Masters, fout, "fs");
 }
 
 void DeletePost(vector<HairMasters> &Masters, ofstream& fout)
@@ -128,7 +136,7 @@ void DeletePost(vector<HairMasters> &Masters, ofstream& fout)
 	bool T = true;
 	do
 	{
-		if (stoi(number) <= 0 || stoi(number) >= Masters.size())
+		if (stoi(number) <= 0 || stoi(number) > Masters.size())
 		{
 			cout << "Такой записи не существует!\n";
 			break;
@@ -139,7 +147,7 @@ void DeletePost(vector<HairMasters> &Masters, ofstream& fout)
 		{
 		case 'y':
 			Masters.erase(Masters.begin() + stoi(number) - 1);
-			FileOverwrite(Masters, fout);
+			FileOverwrite(Masters, fout, "fds");
 			cout << "Запись успешно удалена!\n";
 			T = false;
 			break;

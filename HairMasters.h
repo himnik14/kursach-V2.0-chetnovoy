@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <regex>
 using namespace std;
 
 class HairMasters
