@@ -141,12 +141,14 @@
   <ItemGroup>
     <ClCompile Include="AddData.cpp" />
     <ClCompile Include="Admin.cpp" />
+    <ClCompile Include="AdminMode.cpp" />
     <ClCompile Include="HairMasters.cpp" />
     <ClCompile Include="ConsoleOutput.cpp" />
     <ClCompile Include="lineSeparator.cpp" />
     <ClCompile Include="FileManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AdminMode.h" />
     <ClInclude Include="HairMasters.h" />
     <ClInclude Include="ConsoleOutput.h" />
     <ClInclude Include="AddData.h" />

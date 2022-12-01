@@ -30,5 +30,6 @@ void FileOverwrite(vector<HairMasters> &Masters, ofstream& fout)
 	{
 		fout << Masters[i].GetName() << ";" << Masters[i].GetType() << ";" << Masters[i].GetNumberClient() << ";" << Masters[i].GetPrice() << ";" << Masters[i].GetTheData() << ";" << "\n";
 	}
+	fout.close();
 
 }

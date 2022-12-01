@@ -10,7 +10,7 @@ void AddData(vector<HairMasters> &Masters, ofstream& fout)
 		cout << "Сколько записей вы хотите создать?\n";
 		getline(cin, n);
 	} while (n.empty());
-	
+
 	cout << "Какой разделитель вы хотите использовать для записи данных в файл?\n";
 	string separator;
 	fout.open(path, ios::app);
@@ -34,48 +34,44 @@ void AddData(vector<HairMasters> &Masters, ofstream& fout)
 
 void EditPost(vector<HairMasters>& Masters, ofstream& fout)
 {
-	string n, line, k;
+	string n, line;
 	bool T = true;
-	
 	do
 	{
 		cout << "Введите номер записи, которую хотите отредактировать\n";
 		getline(cin, n);
-		if (stoi(n) >= Masters.size() || stoi(n) < 0) {
+		if (stoi(n) >= Masters.size() || stoi(n) <= 0) {
 			cout << "Вы ввели номер записи, которой не существует!\n";
 			break;
 		}
 		cout << "Что вы хотите изменить?\n1.ФИО\n2.Тип работы\n3.Номер клиента\n4.Цену\n5.Дату\n6.Назад\n";
-		getline(cin, k);
-		switch (stoi(k))
+		switch (_getch())
 		{
-		case 1:
+		case '1':
 			try
 			{
-				cout << "Введите ФИО, на которое хотите изменитб\n";
+				cout << "Введите ФИО, на которое хотите изменить\n";
 				getline(cin, line);
 				Masters[stoi(n) - 1].SetName(line);
 			}
-			catch (const std::exception&ex)
+			catch (const std::exception& ex)
 			{
 				cout << ex.what();
 			}
 			break;
-		case 2:
+		case '2':
 			try
 			{
 				cout << "Введите тип работы, на который хотите изменить\n";
 				getline(cin, line);
 				Masters[stoi(n) - 1].SetType(line);
 			}
-			catch (const std::exception&ex)
+			catch (const std::exception& ex)
 			{
 				cout << ex.what();
 			}
 			break;
-		case 3:
-			cout << "Введите номер клиента, на который хотите изменить\n";
-			getline(cin, line);
+		case '3':
 			try
 			{
 				cout << "Введите номер клиента, на который хотите изменить\n";
@@ -87,7 +83,7 @@ void EditPost(vector<HairMasters>& Masters, ofstream& fout)
 				cout << ex.what();
 			}
 			break;
-		case 4:
+		case '4':
 			try
 			{
 				cout << "Введите цену, на который хотите изменить\n";
@@ -99,7 +95,7 @@ void EditPost(vector<HairMasters>& Masters, ofstream& fout)
 				cout << ex.what();
 			}
 			break;
-		case 5:
+		case '5':
 			try
 			{
 				cout << "Введите дату, на которую хотите изменить\n";
@@ -111,15 +107,14 @@ void EditPost(vector<HairMasters>& Masters, ofstream& fout)
 				cout << ex.what();
 			}
 			break;
-		case 6:
+		case '6':
 			break;
 		default:
 			cout << "Ввод некоректен!\n";
 			break;
 		}
 		cout << "Чтобы закончить редактирование и сохранить данные введите 0\nЧтобы продолжить редактирование нажмите любую кнопку\n";
-		k = _getch();
-		if (stoi(k) == 0)
+		if (_getch() == '0')
 			T = false;
 	} while (T);
 	FileOverwrite(Masters, fout);
@@ -131,12 +126,16 @@ void DeletePost(vector<HairMasters> &Masters, ofstream& fout)
 	cout << "Какую запись вы хотите удалить?\n";
 	getline(cin, number);
 	bool T = true;
-	char ch;
 	do
 	{
+		if (stoi(number) <= 0 || stoi(number) >= Masters.size())
+		{
+			cout << "Такой записи не существует!\n";
+			break;
+
+		}
 		cout << "Вы действительно хотите удалить " << number << " запись?\nY - да N - нет\n";
-		ch = _getch();
-		switch (ch)
+		switch (_getch())
 		{
 		case 'y':
 			Masters.erase(Masters.begin() + stoi(number) - 1);

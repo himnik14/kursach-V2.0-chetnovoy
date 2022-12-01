@@ -21,7 +21,7 @@ HairMasters::HairMasters()
 	{
 		SetName(name1);
 	}
-	catch (const std::exception&ex)
+	catch (const std::exception& ex)
 	{
 		cout << ex.what();
 		throw exception("Некоторые поля введены некоректно!\n");
@@ -32,7 +32,7 @@ HairMasters::HairMasters()
 	{
 		SetType(name1);
 	}
-	catch (const std::exception&ex)
+	catch (const std::exception& ex)
 	{
 		cout << ex.what();
 		throw exception("Некоторые поля введены некоректно!\n");
@@ -55,7 +55,7 @@ HairMasters::HairMasters()
 	{
 		SetNumberClient(name1);
 	}
-	catch (const std::exception&ex)
+	catch (const std::exception& ex)
 	{
 		cout << ex.what();
 		throw exception("Некоторые поля введены некоректно!\n");
@@ -66,7 +66,7 @@ HairMasters::HairMasters()
 	{
 		SetPrice(name1);
 	}
-	catch (const std::exception&ex)
+	catch (const std::exception& ex)
 	{
 		cout << ex.what();
 		throw exception("Некоторые поля введены некоректно!\n");
@@ -115,21 +115,23 @@ void HairMasters::SetType(string type)
 
 void HairMasters::SetNumberClient(string numberClient)
 {
-	if (stoi(numberClient) <=0 || stoi(numberClient) >=10000)
+	if (stoi(numberClient) <= 0 || stoi(numberClient) > 200)
 		throw exception("Поле с номером клиента введено некоректно!\n");
 	this->numberClient = (numberClient);
 }
 
 void HairMasters::SetPrice(string price)
 {
-	if (stoi(price)<=400 || stoi(price)>=100000)
+	if (stoi(price) <= 400 || stoi(price) >= 100000)
 		throw exception("Поле со стоимостью введено некорректно!\n");
 	this->price = (price);
 }
 
 void HairMasters::SetTheData(string theData)
 {
-	if (name.empty())
+	if (theData.empty())
 		throw exception("Поле с датой не должно быть пустым!\n");
+	else if (theData.length() != 10)
+		throw exception("Поле с датой должно иметь вид xx.xx.xxxx\n");
 	this->theData = theData;
 }
