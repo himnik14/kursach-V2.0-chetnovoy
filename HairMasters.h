@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <regex>
+#include <map>
 using namespace std;
 
 class HairMasters
@@ -11,6 +12,7 @@ class HairMasters
 public:
 	HairMasters(string name, string type, string numberClient, string price, string theData);
 	HairMasters();
+	void PlusPrice(double pr);
 	string GetName();
 	string GetType();
 	string GetNumberClient();

@@ -16,7 +16,16 @@ vector<HairMasters> ReadFile1(ifstream &f, string separator, string path)
 		getline(f, s);
 		if (s.size() != 0) {
 			a = lineSeparotor(s, separator);
-			Masters.push_back(HairMasters(a[0], a[1], a[2], a[3], a[4]));
+			try
+			{
+				Masters.push_back(HairMasters(a[0], a[1], a[2], a[3], a[4]));
+
+			}
+			catch (const std::exception&ex)
+			{
+				cout << ex.what();
+
+			}
 		}
 	}
 	f.close();

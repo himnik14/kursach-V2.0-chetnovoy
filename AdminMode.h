@@ -11,15 +11,18 @@
 
 class AdminMode 
 {
+	void AddData();
+	void EditPost();
+	void DeletePost();
+protected:
 	vector<HairMasters> Masters;
 	string path;
 	ifstream f;
 	ofstream fout;
+
 public:
 	AdminMode(string path);
-	void ConsoleOutput();
-	void AddData();
-	void EditPost();
-	void DeletePost();
-	void Main();
+	virtual void ConsoleOutput(vector<HairMasters> Master);
+	virtual void Main();
+
 };

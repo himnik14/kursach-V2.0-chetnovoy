@@ -139,17 +139,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Admin.cpp" />
+    <ClCompile Include="proj.cpp" />
     <ClCompile Include="AdminMode.cpp" />
     <ClCompile Include="HairMasters.cpp" />
     <ClCompile Include="lineSeparator.cpp" />
     <ClCompile Include="FileManager.cpp" />
+    <ClCompile Include="UserMode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AdminMode.h" />
     <ClInclude Include="HairMasters.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="lineSeparator.h" />
+    <ClInclude Include="UserMode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

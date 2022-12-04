@@ -1,10 +1,11 @@
 #include "HairMasters.h"
 #include <string>
+#include "AdminMode.h"
 
 HairMasters::HairMasters(string name, string type, string numberClient, string price, string theData)
 {
 	if (name.empty() || type.empty() || numberClient.empty() || price.empty() || theData.empty())
-		throw exception("Нельзя вводить пустые поля!");
+		throw exception("Некоторые поля в файле пусты!\n");
 	this->name = name;
 	this->numberClient = numberClient;
 	this->type = type;
@@ -15,61 +16,29 @@ HairMasters::HairMasters(string name, string type, string numberClient, string p
 HairMasters::HairMasters()
 {
 	string name1;
-	cout << "Введите ФИО мастера\n";
-	getline(cin, name1);
 	try
 	{
+		cout << "Введите ФИО мастера\n";
+		getline(cin, name1);
 		SetName(name1);
-	}
-	catch (const std::exception& ex)
-	{
-		cout << ex.what();
-		throw exception("Некоторые поля введены некоректно!\n");
-	}
-	cout << "Введите тип работ\n";
-	getline(cin, name1);
-	try
-	{
+		cout << "Введите тип работ\n";
+		getline(cin, name1);
 		SetType(name1);
-	}
-	catch (const std::exception& ex)
-	{
-		cout << ex.what();
-		throw exception("Некоторые поля введены некоректно!\n");
-	}
-	cout << "Введите дату совершения работы в формате xx.xx.xxxx\n";
-	getline(cin, name1);
-	try
-	{
+		cout << "Введите дату совершения работы в формате xx.xx.xxxx\n";
+		getline(cin, name1);
 		SetTheData(name1);
+		cout << "Введите номер клиента\n";
+		getline(cin, name1);
+		SetNumberClient(name1);
+		cout << "Введите стоимость работы, сделанной мастером\n";
+		getline(cin, name1);
+		SetPrice(name1);
 
 	}
-	catch (const std::exception& ex)
+	catch (const std::exception&ex)
 	{
 		cout << ex.what();
-		throw exception("Некоторые поля введены некоректно!\n");
-	}
-	cout << "Введите номер клиента\n";
-	getline(cin, name1);
-	try
-	{
-		SetNumberClient(name1);
-	}
-	catch (const std::exception& ex)
-	{
-		cout << ex.what();
-		throw exception("Некоторые поля введены некоректно!\n");
-	}
-	cout << "Введите стоимость работы, сделанной мастером\n";
-	getline(cin, name1);
-	try
-	{
-		SetPrice(name1);
-	}
-	catch (const std::exception& ex)
-	{
-		cout << ex.what();
-		throw exception("Некоторые поля введены некоректно!\n");
+		throw exception("Запись не была создана!\n");
 	}
 }
 
@@ -122,7 +91,7 @@ void HairMasters::SetNumberClient(string numberClient)
 {
 	regex r("[0-9\\s]*");
 	if (!regex_match(numberClient.c_str(), r))
-	throw exception("В поле номера клиента допустимы только цифры!\n");
+		throw exception("В поле номера клиента допустимы только цифры!\n");
 	else if (stoi(numberClient) <= 0 || stoi(numberClient) > 200)
 		throw exception("Поле с номером клиента введено некоректно!\n");
 	this->numberClient = (numberClient);
@@ -154,4 +123,9 @@ void HairMasters::SetTheData(string theData)
 	else if (stoi(theData.substr(6, 9)) > 2022 || stoi(theData.substr(6, 9)) <= 2000)
 		throw exception("Наш салон красоты ведёт учёт работ с 2000-го года!\n");
 	this->theData = theData;
+}
+
+void HairMasters::PlusPrice(double pr)
+{
+	price = to_string(stoi(price) + pr);
 }

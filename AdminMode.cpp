@@ -1,32 +1,41 @@
 #include "AdminMode.h"
 
+bool Test(string value)
+{
+	regex reg("[0-9\\s]*");
+	return !regex_match(value.c_str(), reg);
+}
+
+
 AdminMode::AdminMode(string path)
 {
 	this->path = path;
 	this->Masters = ReadFile1(f, ";", path);
 }
-void AdminMode::ConsoleOutput()
+void AdminMode::ConsoleOutput(vector<HairMasters> Master)
 {
+
+	cout << "----------------------------------------------------------------------------------------------------\n";
 	std::cout
-		<< "\t\t" << "ФИО"
-		<< "\t\t    " << "ТИП РАБОТЫ"
-		<< "\t    " << "#"
-		<< "     ЦЕНА"
-		<< "       ДАТА"
+		<< "\t\t" << setw(29) << left << "ФИО" << "|"
+		 << setw(23) << left << "        ТИП РАБОТЫ" << " | "
+		<<  setw(4) << left << "#" << "|"
+		<< setw(5) << left << "   ЦЕНА" << "   |"
+		<< "    ДАТА   |"
 		<< std::endl;
-	cout << "-----------------------------------------------------------------------------\n";
-	for (int i = 0; i < Masters.size(); i++)
+	cout << "----------------------------------------------------------------------------------------------------\n";
+	for (int i = 0; i < Master.size(); i++)
 	{
 
-		cout << setw(29) << left
-			<< Masters[i].GetName()
-			<< " | " << setw(16) << left << Masters[i].GetType()
-			<< " | " << setw(3) << left << Masters[i].GetNumberClient()
-			<< " | " << setw(8) << left << Masters[i].GetPrice() << " | "
-			<< Masters[i].GetTheData();
+		cout << setw(44) << left
+			<< Master[i].GetName()
+			<< " | " << setw(22) << left << Master[i].GetType()
+			<< " | " << setw(3) << left << Master[i].GetNumberClient()
+			<< " | " << setw(8) << left << Master[i].GetPrice() << " | "
+			<< Master[i].GetTheData() << "|";
 		cout << endl;
 	}
-	cout << "-----------------------------------------------------------------------------\n";
+	cout << "----------------------------------------------------------------------------------------------------\n";
 }
 
 void AdminMode::AddData()
@@ -64,7 +73,6 @@ void AdminMode::AddData()
 	fout.close();
 }
 
-
 void AdminMode::EditPost()
 {
 	string n, line;
@@ -78,77 +86,52 @@ void AdminMode::EditPost()
 			break;
 		}
 		cout << "Что вы хотите изменить?\n1.ФИО\n2.Тип работы\n3.Номер клиента\n4.Цену\n5.Дату\n6.Назад\n";
-		switch (_getch())
+		try
 		{
-		case '1':
-			try
+			switch (_getch())
 			{
+			case '1':
 				cout << "Введите ФИО, на которое хотите изменить\n";
 				getline(cin, line);
 				Masters[stoi(n) - 1].SetName(line);
-			}
-			catch (const std::exception& ex)
-			{
-				cout << ex.what();
-			}
-			break;
-		case '2':
-			try
-			{
+				break;
+			case '2':
 				cout << "Введите тип работы, на который хотите изменить\n";
 				getline(cin, line);
 				Masters[stoi(n) - 1].SetType(line);
-			}
-			catch (const std::exception& ex)
-			{
-				cout << ex.what();
-			}
-			break;
-		case '3':
-			try
-			{
+				break;
+			case '3':
 				cout << "Введите номер клиента, на который хотите изменить\n";
 				getline(cin, line);
 				Masters[stoi(n) - 1].SetNumberClient(line);
-			}
-			catch (const std::exception& ex)
-			{
-				cout << ex.what();
-			}
-			break;
-		case '4':
-			try
-			{
+				break;
+			case '4':
 				cout << "Введите цену, на который хотите изменить\n";
 				getline(cin, line);
 				Masters[stoi(n) - 1].SetPrice(line);
-			}
-			catch (const std::exception& ex)
-			{
-				cout << ex.what();
-			}
-			break;
-		case '5':
-			try
-			{
+				break;
+			case '5':
 				cout << "Введите дату, на которую хотите изменить\n";
 				getline(cin, line);
 				Masters[stoi(n) - 1].SetTheData(line);
+				break;
+			case '6':
+				T = false;
+				break;
+			default:
+				cout << "Ввод некоректен!\n";
+				break;
 			}
-			catch (const std::exception& ex)
-			{
-				cout << ex.what();
+			if (T) {
+				cout << "Чтобы закончить редактирование и сохранить данные введите 0\nЧтобы продолжить редактирование нажмите любую кнопку\n";
+				if (_getch() == '0')
+					T = false;
 			}
-			break;
-		case '6':
-			break;
-		default:
-			cout << "Ввод некоректен!\n";
-			break;
 		}
-		cout << "Чтобы закончить редактирование и сохранить данные введите 0\nЧтобы продолжить редактирование нажмите любую кнопку\n";
-		if (_getch() == '0')
-			T = false;
+		catch (const std::exception& ex)
+		{
+			cout << ex.what();
+		}
 	} while (T);
 	FileOverwrite(Masters, fout, path);
 }
@@ -156,8 +139,15 @@ void AdminMode::EditPost()
 void AdminMode::DeletePost()
 {
 	string number;
-	cout << "Какую запись вы хотите удалить?\n";
-	getline(cin, number);
+	while (true)
+	{
+		cout << "Какую запись вы хотите удалить?\n";
+		getline(cin, number);
+		if (Test(number))
+			cout << "Можно ввоить только цифры!\n";
+		else
+			break;
+	}
 	bool T = true;
 	do
 	{
@@ -196,15 +186,19 @@ void AdminMode::Main()
 		switch (_getch())
 		{
 		case '1':
-			ConsoleOutput();
+			system("cls");
+			ConsoleOutput(Masters);
 			break;
 		case '2':
+			system("cls");
 			AddData();
 			break;
 		case '3':
+			system("cls");
 			EditPost();
 			break;
 		case '4':
+			system("cls");
 			DeletePost();
 			break;
 		case '5':
