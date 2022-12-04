@@ -6,12 +6,12 @@ bool Test(string value)
 	return !regex_match(value.c_str(), reg);
 }
 
-
 AdminMode::AdminMode(string path)
 {
 	this->path = path;
 	this->Masters = ReadFile1(f, ";", path);
 }
+
 void AdminMode::ConsoleOutput(vector<HairMasters> Master)
 {
 
@@ -45,7 +45,14 @@ void AdminMode::AddData()
 	{
 		cout << "Сколько записей вы хотите создать?\n";
 		getline(cin, n);
-	} while (n.empty());
+		if (Test(n) || n.empty())
+		{
+			cout << "Писать можно только цифры\n";
+		}
+		else
+			break;
+		
+	} while (true);
 	string separator = ";";
 	fout.open(path, ios::app);
 	for (int i = 0; i < abs(stoi(n)); i++)
@@ -59,11 +66,11 @@ void AdminMode::AddData()
 		catch (const std::exception& ex)
 		{
 			cout << ex.what();
+			cout << "Запись не была создана!\n";
 			continue;
 		}
 		cout << "Запись успешно создана!\n";
 		cout << "============================\n";
-
 		fout << Masters[Masters.size() - 1].GetName() << separator
 			<< Masters[Masters.size() - 1].GetType() <<
 			separator << Masters[Masters.size() - 1].GetNumberClient()
@@ -79,8 +86,17 @@ void AdminMode::EditPost()
 	bool T = true;
 	do
 	{
-		cout << "Введите номер записи, которую хотите отредактировать\n";
-		getline(cin, n);
+		do
+		{
+			cout << "Введите номер записи, которую хотите отредактировать\n";
+			getline(cin, n);
+			if (Test(n) || n.empty())
+			{
+				cout << "Писать можно только цифры\n";
+			}
+			else
+				break;
+		} while (true);
 		if (stoi(n) > Masters.size() || stoi(n) <= 0) {
 			cout << "Вы ввели номер записи, которой не существует!\n";
 			break;
@@ -144,7 +160,7 @@ void AdminMode::DeletePost()
 		cout << "Какую запись вы хотите удалить?\n";
 		getline(cin, number);
 		if (Test(number))
-			cout << "Можно ввоить только цифры!\n";
+			cout << "Можно вводить только цифры!\n";
 		else
 			break;
 	}

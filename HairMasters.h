@@ -12,7 +12,6 @@ class HairMasters
 public:
 	HairMasters(string name, string type, string numberClient, string price, string theData);
 	HairMasters();
-	void PlusPrice(double pr);
 	string GetName();
 	string GetType();
 	string GetNumberClient();

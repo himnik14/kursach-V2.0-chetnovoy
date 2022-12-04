@@ -26,3 +26,5 @@ public:
 	virtual void Main();
 
 };
+bool Test(string value);
+

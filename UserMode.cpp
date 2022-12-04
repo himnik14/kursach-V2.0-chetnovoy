@@ -1,6 +1,4 @@
 #include "UserMode.h"
-#include "AdminMode.cpp"
-
 void UserMode::Search()
 {
 	regex reg("[А-Яа-я\\s]*");
@@ -36,7 +34,41 @@ void UserMode::Search()
 	else
 		cout << "Мастеров с таким ФИО не найдено!\n";
 }
-map<string, int> MakeMap(map<string, int>::iterator it, vector<HairMasters>)
+
+map<string, int> MakeMap(map<string, int>::iterator it, vector<HairMasters> Masters, string date, map<string, int> mp)
+{
+	for (int i = 0; i < Masters.size(); i++)
+	{
+		if (Masters[i].GetTheData() == date) {
+			it = mp.find(Masters[i].GetName());
+			if (it == mp.end() || mp.empty())
+			{
+				mp.insert(make_pair(Masters[i].GetName(), stoi(Masters[i].GetPrice())));
+			}
+			else
+				it->second += stoi(Masters[i].GetPrice());
+		}
+	}
+	if (mp.empty())
+		throw exception("В этот день ни один мастер не работал!\n");
+	else
+		return mp;
+}
+
+map<string, int>::iterator SearchMaxMoney(map<string, int>::iterator it1, map<string, int>::iterator it3, map<string, int>& mp)
+{
+	int Max = INT_MIN;
+	it1 = mp.begin();
+	for (int i = 0; it1 != mp.end(); i++, it1++)
+	{
+		if (it1->second > Max)
+		{
+			it3 = it1;
+			Max = it1->second;
+		}
+	}
+	return it3;
+}
 
 void UserMode::BestJob()
 {
@@ -75,33 +107,18 @@ void UserMode::BestJob()
 			break;
 	}
 	day = day + "." + mounth + "." + year;
-	for (int i = 0; i < Masters.size(); i++)
+	try
 	{
-		if (Masters[i].GetTheData() == day) {
-			Mast.push_back(Masters[i]);
-			it1 = mp.find(Masters[i].GetName());
-			if (it1 == mp.end() || mp.empty())
-			{
-				mp.insert(make_pair(Masters[i].GetName(), stoi(Masters[i].GetPrice())));
-			}
-			else
-				it1->second += stoi(Masters[i].GetPrice());
-		}
+		mp = MakeMap(it1, Masters, day, mp);
+		it3 = SearchMaxMoney(it1, it3, mp);
+		cout << "----------------------------------------------------------------------------------------------------\n";
+		cout << "Лучший работник за " << day << ": " << it3->first << " с доходом " << it3->second << endl;
+		cout << "----------------------------------------------------------------------------------------------------\n";
 	}
-	int Max = INT_MIN;
-	it1 = mp.begin();
-	for (int i = 0; it1!=mp.end(); i++, it1++)
+	catch (const std::exception&ex)
 	{
-		if (it1->second > Max)
-		{
-			it3 = it1;
-			Max = it1->second;
-		}
+		cout << ex.what();
 	}
-	cout << "\n----------------------------------------------------------------------------------------------------\n";
-	cout <<  "Лучший работник за " << day <<": " << it3->first << " с доходом "   << it3->second << endl;
-	cout << "----------------------------------------------------------------------------------------------------\n";
-	ConsoleOutput(Mast);
 }
 
 vector<HairMasters> UserMode::SortAlf(vector<HairMasters> M)

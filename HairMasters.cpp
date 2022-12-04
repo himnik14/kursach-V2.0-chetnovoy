@@ -124,8 +124,3 @@ void HairMasters::SetTheData(string theData)
 		throw exception("Наш салон красоты ведёт учёт работ с 2000-го года!\n");
 	this->theData = theData;
 }
-
-void HairMasters::PlusPrice(double pr)
-{
-	price = to_string(stoi(price) + pr);
-}

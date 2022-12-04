@@ -2,14 +2,13 @@
 #include <iostream>
 #include "lineSeparator.h"
 vector<HairMasters> ReadFile1(ifstream &f, string separator, string path)
-{
-	vector<string> a;
-	
+{	
 	f.open(path);
 	if (!f.is_open()) {
 		cout << "Ошибка открытия файла!\n";
 	}
 	string s;
+	vector<string> a;
 	vector<HairMasters> Masters;
 	while (!f.eof())
 	{
