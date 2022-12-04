@@ -4,9 +4,7 @@
 #include "lineSeparator.h"
 #include <windows.h>
 #include <fstream>
-#include "ConsoleOutput.h"
 #include "FileManager.h"
-#include "AddData.h"
 #include <iomanip>
 
 class AdminMode 

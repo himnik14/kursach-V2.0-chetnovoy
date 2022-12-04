@@ -4,6 +4,7 @@
 #include <vector>
 #include <regex>
 #include <map>
+#include<conio.h>
 using namespace std;
 
 class HairMasters
